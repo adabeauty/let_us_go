@@ -10,6 +10,9 @@
         <script src="../lib/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
 
         <script src="../js/main.js"></script>
+        <script src="../js/item.js"></script>
+        <script src="../js/storage.js"></script>
+        <script src="../js/cartList.js"></script>
     </head>
 
     <body>
@@ -37,65 +40,22 @@
             </div>
         </nav>
         <div class="container">
-            <label><h3><span class="glyphicon glyphicon-shopping-cart">我的购物车</span></h3></label>
-            <div class="panel panel-default">
-                <div class="panel-heading text-center" id="cart_categoty_1">饮料类</div>
-                <div class="panel-body">
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"><label>序号</label></div>
-                        <div class="col-md-2"><label>名称</label></div>
-                        <div class="col-md-2"><label>单价</label></div>
-                        <div class="col-md-2"><label>数量</label></div>
-                        <div class="col-md-2"><label>小计</label></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1">1</div>
-                        <div class="col-md-2"><span id="cart_1_name">可口可乐</span></div>
-                        <div class="col-md-2"><span id="cart_1_price">3.00元/瓶</span></div>
-                        <div class="col-md-2"><span id="cart_1_num">3</span></div>
-                        <div class="col-md-2"><span id="cart_1_everyTotal">9.00元</span></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-4 col-md-offset-6">小计：<span id="cart_1_total"></span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading text-center" id="cart_categoty_2">水果类</div>
-                <div class="panel-body">
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"><label>序号</label></div>
-                        <div class="col-md-2"><label>名称</label></div>
-                        <div class="col-md-2"><label>单价</label></div>
-                        <div class="col-md-2"><label>数量</label></div>
-                        <div class="col-md-2"><label>小计</label></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1">1</div>
-                        <div class="col-md-2"><span id="cart_2_name">苹果</span></div>
-                        <div class="col-md-2"><span id="cart_2_price">5.00元/斤</span></div>
-                        <div class="col-md-2"><span id="cart_2_num">3</span></div>
-                        <div class="col-md-2"><span id="cart_2_everyTotal">15.00元</span></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-4 col-md-offset-6">小计：<span id="cart_2_total"></span></div>
-                    </div>
-                </div>
-            </div>
+            <!-- <label id="cart_list"><h3><span class="glyphicon glyphicon-shopping-cart">我的购物车</span></h3></label> -->
+            <h3><span class="glyphicon glyphicon-shopping-cart">我的购物车</span></h3>
+            <!-- <div class="panel panel-default" id="cart_list"> -->
+            <div id="cart_list"></div>
 
             <div class="panel panel-default">
                 <!-- <div class="panel-heading text-center" id="cart_categoty_1">水果类</div> -->
                 <div class="panel-body">
                     <div class="row text-left">
-                        <div class="col-md-4 col-md-offset-8"><label>数量：<span id="cart_num"></span></label></div>
+                        <div class="col-md-2 col-md-offset-8"><label>数量：<span id="cart_num"></span></label></div>
                     </div>
-                    <div class="row text-left">
-                        <div class="col-md-4 col-md-offset-8"><label>合计：<span id="cart_total"></span></label></div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-8"><label>合计：<span id="cart_total"></span></label></div>
+                        <!-- <div class="col-md-2">
+                            <a href="pay.html" id="enter_button" class="btn btn-primary btn-lg text-center" role="button">立刻结算&nbsp;>></a>
+                        </div> -->
                     </div>
                     <div class="text-right">
                         <span>
@@ -103,9 +63,6 @@
                         </span>
                     </div>
 
-                    <!-- <div class="row text-center">
-                        <div class="col-md-4 col-md-offset-6"><label>合计：<span id="cart_total"></span></label></div>
-                    </div> -->
                 </div>
             </div>
         </div>
