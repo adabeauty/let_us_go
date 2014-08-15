@@ -1,8 +1,5 @@
 function showPayList(){
 
-    // var drinks = JSON.parse(localStorage.getItem("drinks"));
-    // var nuts = JSON.parse(localStorage.getItem("nutss"));
-    // var snacks = JSON.parse(localStorage.getItem("snacks"));
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     generatePayList(boughtGoods);
     localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
@@ -36,7 +33,6 @@ function generatePayList(boughtGoods){
     }
     var totalMoney = JSON.parse(localStorage.getItem("totalMoney"));
     $('#pay_list_body').append(
-          // +'<div>'
             '<div class="row text-center">'
                 +'<div class="col-md-12">&nbsp;</div>'
             +'</div>'
@@ -46,12 +42,11 @@ function generatePayList(boughtGoods){
             +'<div class="row">'
                 +'<div class="col-md-4 col-md-offset-8">应付金额:'+totalMoney+ '</div>'
             +'</div>'
-        // +'</div>'
     );
 
     $('#pay_list').after(
           '<div class="text-center">'
-              +'<a href="../index.html" class="tn btn-primary btn-lg text-center" role="button"><span>返回主页</span></a>'
+              +'<a href="../index.html" class="tn btn-primary btn-lg text-center clear_button" role="button"><span>返回主页</span></a>'
           +'</div>'
     );
 

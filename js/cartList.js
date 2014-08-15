@@ -1,4 +1,7 @@
 function showCartList(){
+
+    // $('.up_button').on('click',upNum);
+    loadEveryTotal();
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     if(boughtGoods === 0){
         boughtGoods = [];
@@ -6,25 +9,81 @@ function showCartList(){
     var drinks = [];
     var nuts = [];
     var snacks = [];
-    for(var i=0; i<boughtGoods.length; i++){
-      if(boughtGoods[i].item.category === "饮料类"){
-          drinks.push(boughtGoods[i]);
-      }
 
-      if(boughtGoods[i].item.category === "干果类"){
-          nuts.push(boughtGoods[i]);
-      }
-      if(boughtGoods[i].item.category === "零食类"){
-          snacks.push(boughtGoods[i]);
-      }
+    for(var i=0; i<boughtGoods.length; i++){
+
+        if(boughtGoods[i].item.category === "饮料类"){
+            drinks.push(boughtGoods[i]);
+        }
+
+        if(boughtGoods[i].item.category === "干果类"){
+            nuts.push(boughtGoods[i]);
+        }
+        if(boughtGoods[i].item.category === "零食类"){
+            snacks.push(boughtGoods[i]);
+        }
     }
-//    transformToJson(drinks, nuts, snacks);
+
+
     generateDrinks(drinks);
     generateNuts(nuts);
     generateSnacks(snacks);
-    generateTotal(drinks, nuts, snacks);
 
+    generateTotal();
+    $('.up_button').on('click',upNum);
+    $('.dowm_button').on('click',downNum);
+
+
+}
+function loadEveryTotal(){
+
+    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    for(var i=0; i<boughtGoods.length; i++){
+        boughtGoods[i].everyTotal = boughtGoods[i].num*boughtGoods[i].item.price;
+    }
     localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
+
+}
+
+function upNum(){
+    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    for(var i=0; i<boughtGoods.length; i++){
+        if(boughtGoods[i].item.name === $(this).attr("name")){
+            boughtGoods[i].num++;
+            reloadInfo(boughtGoods);
+            break;
+        }
+    }
+    // getNewPage(i);
+    boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    $('#'+$(this).attr("name")).text(boughtGoods[i].num);
+
+    $(this).closest('.row').find('#cart_everyTotal').text(boughtGoods[i].everyTotal);
+    $('#cart_num').text(boughtGoods.totalNum);
+    $('#cart_total').text(boughtGoods.totalMoney);
+
+}
+function downNum(){
+    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    for(var i=0; i<boughtGoods.length; i++){
+        if(boughtGoods[i].item.name === $(this).attr("name")){
+            boughtGoods[i].num--;
+            reloadInfo(boughtGoods);
+            break;
+        }
+    }
+    boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    $('#'+$(this).attr("name")).text(boughtGoods[i].num);
+
+    $(this).closest('.row').find('#cart_everyTotal').text(boughtGoods[i].everyTotal);
+    $('#cart_num').text(boughtGoods.totalNum);
+    $('#cart_total').text(boughtGoods.totalMoney);
+
+}
+function reloadInfo(boughtGoods){
+    localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
+    loadEveryTotal();
+    generateTotal();
 }
 
 function generateDrinks(drinks){
@@ -50,7 +109,7 @@ function generateDrinks(drinks){
             +'</div>'
         );
         for(var m=0; m<drinks.length; m++){
-            drinks[m].everyTotal = drinks[m].num*drinks[m].item.price;
+            // drinks[m].everyTotal = drinks[m].num*drinks[m].item.price;
             $('#cart_body_1').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
@@ -63,6 +122,7 @@ function generateDrinks(drinks){
             );
         }
     }
+
 }
 
 function generateNuts(nuts){
@@ -87,7 +147,7 @@ function generateNuts(nuts){
             +'</div>'
         );
         for(var m=0; m<nuts.length; m++){
-            nuts[m].everyTotal = nuts[m].num*nuts[m].item.price;
+            // nuts[m].everyTotal = nuts[m].num*nuts[m].item.price;
             $('#cart_body_2').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
@@ -100,6 +160,7 @@ function generateNuts(nuts){
             );
         }
     }
+
 }
 
 function generateSnacks(snacks){
@@ -124,53 +185,44 @@ function generateSnacks(snacks){
             +'</div>'
         );
         for(var m=0; m<snacks.length; m++){
-            snacks[m].everyTotal = snacks[m].num*snacks[m].item.price;
+            // snacks[m].everyTotal = snacks[m].num*snacks[m].item.price;
             $('#cart_body_3').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
                   +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+snacks[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+snacks[m].item.price+'元/'+snacks[m].item.unit+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_num">'+snacks[m].num+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
+                  +'<div class="col-md-2">'
+                      +'<div class="input-group">'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default dowm_button" type="button" name="'+snacks[m].item.name+'">-</button>'
+                          +'</span>'
+                          +'<span class="form-control" id="'+snacks[m].item.name+'">'+snacks[m].num+'</span>'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default up_button" type="button" name="'+snacks[m].item.name+'">+</button>'
+                          +'</span>'
+                      +'</div>'
+                  +'</div>'
+                  +'<div class="col-md-2"><span id="cart_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
               +'</div>'
             );
         }
     }
+
 }
 
-// function generateTotal(drinks, nuts, snacks){
-//
-// }
-function generateTotal(drinks, nuts, snacks){
 
+function generateTotal(){
+    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     var totalNum = 0;
     var totalMoney = 0;
-    for(var i=0; i<drinks.length; i++){
-        totalNum += drinks[i].num;
-        totalMoney += drinks[i].everyTotal;
-    }
-    for(var i=0; i<nuts.length; i++){
-        totalNum += nuts[i].num;
-        totalMoney += nuts[i].everyTotal;
-    }
-    for(var i=0; i<snacks.length; i++){
-        totalNum += snacks[i].num;
-        totalMoney += snacks[i].everyTotal;
+
+    for(var i=0; i<boughtGoods.length; i++){
+        totalNum += boughtGoods[i].num;
+        totalMoney += boughtGoods[i].everyTotal;
     }
     $('#cart_num').text(totalNum);
     $('#cart_total').text(totalMoney);
     localStorage.setItem("totalMoney",JSON.stringify(totalMoney));
+    localStorage.setItem("totalNum",JSON.stringify(totalNum));
 }
-// function transformToJson(drinks, nuts, snacks){
-//
-// //  var localDrinks = JSON.parse(localStorage.getItem("drinks"));
-//   localStorage.setItem("drinks",JSON.stringify(drinks));
-//
-// //  var localNuts = JSON.parse(localStorage.getItem("nutss"));
-//   localStorage.setItem("nuts",JSON.stringify(nuts));
-//
-// //  var localSnacks = JSON.parse(localStorage.getItem("snacks"));
-//   localStorage.setItem("snacks",JSON.stringify(snacks));
-//
-// }

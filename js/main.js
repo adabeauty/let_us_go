@@ -1,13 +1,17 @@
 $(document).ready(function(){
-    // localStorage.clickcount =0;
-    // localStorage.boughtGoods =0;
+
     $(".cart_num").text('('+localStorage.clickcount+')' );   //结束购物后清零
-    // $(".btn-Info").on("click", clickCounter);
+
     showShopList();
     $(".btn-Info").on("click", clickCounter);
+
     showCartList();
+    // $('.up_button').on('click',upNum);
+    // $('.dowm_button').on('click',downNum);
+
     showPayList();
-    // $(".btn-Info").on("click", clickCounter);
+    $(".clear_button").on("click", clearCart);
+
 
 
 });
@@ -66,4 +70,11 @@ function goodsHasExist(name,boughtGoods){
     }
 
     return boughtGood;
+}
+
+function clearCart(){
+    localStorage.clickcount =0;
+    localStorage.boughtGoods =0;
+    localStorage.totalMoney =0;
+
 }

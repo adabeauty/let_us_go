@@ -9,7 +9,7 @@ function BoughtItem(item, num){
 
     this.num = num;
     this.item = item;
-//    this.everyTotal = || 0;
+//    this.everyTotal = 0;
 }
 
 BoughtItem.prototype.getEveryTotal = function(){
