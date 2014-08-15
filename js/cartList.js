@@ -1,6 +1,5 @@
 function showCartList(){
 
-    // $('.up_button').on('click',upNum);
     loadEveryTotal();
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     if(boughtGoods === 0){
@@ -58,7 +57,7 @@ function upNum(){
     boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     $('#'+$(this).attr("name")).text(boughtGoods[i].num);
 
-    $(this).closest('.row').find('#cart_everyTotal').text(boughtGoods[i].everyTotal);
+    $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
     $('#cart_num').text(boughtGoods.totalNum);
     $('#cart_total').text(boughtGoods.totalMoney);
 
@@ -75,7 +74,7 @@ function downNum(){
     boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     $('#'+$(this).attr("name")).text(boughtGoods[i].num);
 
-    $(this).closest('.row').find('#cart_everyTotal').text(boughtGoods[i].everyTotal);
+    $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
     $('#cart_num').text(boughtGoods.totalNum);
     $('#cart_total').text(boughtGoods.totalMoney);
 
@@ -116,8 +115,20 @@ function generateDrinks(drinks){
                   +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+drinks[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+drinks[m].item.price+'元/'+drinks[m].item.unit+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_num">'+drinks[m].num+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_everyTotal">'+ drinks[m].everyTotal +'元</span></div>'
+                  //+'<div class="col-md-2"><span id="cart_1_num">'+drinks[m].num+'</span></div>'
+                  +'<div class="col-md-2">'
+                      +'<div class="input-group">'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default dowm_button" type="button" name="'+drinks[m].item.name+'">-</button>'
+                          +'</span>'
+                          +'<span class="form-control" id="'+drinks[m].item.name+'">'+drinks[m].num+'</span>'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default up_button" type="button" name="'+drinks[m].item.name+'">+</button>'
+                          +'</span>'
+                      +'</div>'
+                  +'</div>'
+                  +'<div class="col-md-2"><span name="cart_everyTotal">'+ drinks[m].everyTotal +'元</span></div>'
+                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
               +'</div>'
             );
         }
@@ -154,8 +165,19 @@ function generateNuts(nuts){
                   +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+nuts[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+nuts[m].item.price+'元/'+nuts[m].item.unit+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_num">'+nuts[m].num+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_everyTotal">'+ nuts[m].everyTotal +'元</span></div>'
+                  +'<div class="col-md-2">'
+                      +'<div class="input-group">'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default dowm_button" type="button" name="'+nuts[m].item.name+'">-</button>'
+                          +'</span>'
+                          +'<span class="form-control" id="'+nuts[m].item.name+'">'+nuts[m].num+'</span>'
+                          +'<span class="input-group-btn">'
+                              +'<button class="btn btn-default up_button" type="button" name="'+nuts[m].item.name+'">+</button>'
+                          +'</span>'
+                      +'</div>'
+                  +'</div>'
+                  +'<div class="col-md-2"><span name="cart_everyTotal">'+ nuts[m].everyTotal +'元</span></div>'
+                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
               +'</div>'
             );
         }
@@ -203,7 +225,8 @@ function generateSnacks(snacks){
                           +'</span>'
                       +'</div>'
                   +'</div>'
-                  +'<div class="col-md-2"><span id="cart_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
+                  +'<div class="col-md-2"><span name="cart_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
+                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
               +'</div>'
             );
         }

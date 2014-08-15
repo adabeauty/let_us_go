@@ -37,7 +37,7 @@ function generatePayList(boughtGoods){
                 +'<div class="col-md-12">&nbsp;</div>'
             +'</div>'
             +'<div class="row">'
-                +'<div class="col-md-4 col-md-offset-8">数量:'+boughtGoods.length+ '</div>'
+                +'<div class="col-md-4 col-md-offset-8">件数:'+boughtGoods.length+ '</div>'
             +'</div>'
             +'<div class="row">'
                 +'<div class="col-md-4 col-md-offset-8">应付金额:'+totalMoney+ '</div>'
