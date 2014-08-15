@@ -2,23 +2,25 @@ $(document).ready(function(){
     // localStorage.clickcount =0;
     // localStorage.boughtGoods =0;
     $(".cart_num").text('('+localStorage.clickcount+')' );   //结束购物后清零
-    finishShopList();
-    finishCartList();
+    // $(".btn-Info").on("click", clickCounter);
+    showShopList();
     $(".btn-Info").on("click", clickCounter);
+    showCartList();
+    showPayList();
+    // $(".btn-Info").on("click", clickCounter);
 
 
 });
 
 function clickCounter() {
 
-  //
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     if(boughtGoods === 0){
         boughtGoods = [];
     }
     var boughtGood = goodsHasExist($(this)[0].id, boughtGoods);
     if(boughtGood){
-        boughtGood.item.num++;
+        boughtGood.num++;
     }else{
         boughtGoods.push(new BoughtItem(getItem($(this)[0].id),1));
     }

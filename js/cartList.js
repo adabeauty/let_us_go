@@ -1,4 +1,4 @@
-function finishCartList(){
+function showCartList(){
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
     if(boughtGoods === 0){
         boughtGoods = [];
@@ -18,14 +18,17 @@ function finishCartList(){
           snacks.push(boughtGoods[i]);
       }
     }
-
+//    transformToJson(drinks, nuts, snacks);
     generateDrinks(drinks);
     generateNuts(nuts);
     generateSnacks(snacks);
     generateTotal(drinks, nuts, snacks);
+
+    localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
 }
 
 function generateDrinks(drinks){
+
     if(drinks.length){
         $('#cart_list').after(
             '<div class="panel panel-default" id="cart_panel_1">'
@@ -38,7 +41,8 @@ function generateDrinks(drinks){
         );
         $('#cart_body_1').append(
             '<div class="row text-center">'
-                +'<div class="col-md-2"></div>'
+                +'<div class="col-md-1"></div>'
+                +'<div class="col-md-1"><label>编号</label></div>'
                 +'<div class="col-md-2"><label>名称</label></div>'
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
@@ -50,7 +54,7 @@ function generateDrinks(drinks){
             $('#cart_body_1').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">1</div>'
+                  +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+drinks[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+drinks[m].item.price+'元/'+drinks[m].item.unit+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_num">'+drinks[m].num+'</span></div>'
@@ -74,7 +78,8 @@ function generateNuts(nuts){
         );
         $('#cart_body_2').append(
             '<div class="row text-center">'
-                +'<div class="col-md-2"></div>'
+                +'<div class="col-md-1"></div>'
+                +'<div class="col-md-1"><label>编号</label></div>'
                 +'<div class="col-md-2"><label>名称</label></div>'
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
@@ -86,7 +91,7 @@ function generateNuts(nuts){
             $('#cart_body_2').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">1</div>'
+                  +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+nuts[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+nuts[m].item.price+'元/'+nuts[m].item.unit+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_num">'+nuts[m].num+'</span></div>'
@@ -110,7 +115,8 @@ function generateSnacks(snacks){
         );
         $('#cart_body_3').append(
             '<div class="row text-center">'
-                +'<div class="col-md-2"></div>'
+                +'<div class="col-md-1"></div>'
+                +'<div class="col-md-1"><label>编号</label></div>'
                 +'<div class="col-md-2"><label>名称</label></div>'
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
@@ -122,7 +128,7 @@ function generateSnacks(snacks){
             $('#cart_body_3').append(
               '<div class="row text-center">'
                   +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">1</div>'
+                  +'<div class="col-md-1">'+ (m+1) +'</div>'
                   +'<div class="col-md-2"><span id="cart_1_name">'+snacks[m].item.name+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_price">'+snacks[m].item.price+'元/'+snacks[m].item.unit+'</span></div>'
                   +'<div class="col-md-2"><span id="cart_1_num">'+snacks[m].num+'</span></div>'
@@ -154,4 +160,17 @@ function generateTotal(drinks, nuts, snacks){
     }
     $('#cart_num').text(totalNum);
     $('#cart_total').text(totalMoney);
+    localStorage.setItem("totalMoney",JSON.stringify(totalMoney));
 }
+// function transformToJson(drinks, nuts, snacks){
+//
+// //  var localDrinks = JSON.parse(localStorage.getItem("drinks"));
+//   localStorage.setItem("drinks",JSON.stringify(drinks));
+//
+// //  var localNuts = JSON.parse(localStorage.getItem("nutss"));
+//   localStorage.setItem("nuts",JSON.stringify(nuts));
+//
+// //  var localSnacks = JSON.parse(localStorage.getItem("snacks"));
+//   localStorage.setItem("snacks",JSON.stringify(snacks));
+//
+// }

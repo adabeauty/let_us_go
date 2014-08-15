@@ -10,7 +10,7 @@ function loadItems(){
           ];
 }
 
-function finishShopList(){
+function showShopList(){
 
     var allItems = loadItems();
     $('#shop_list').append(
