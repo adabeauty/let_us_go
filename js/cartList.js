@@ -1,14 +1,45 @@
 function showCartList(){
 
     loadEveryTotal();
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
-    if(boughtGoods === 0){
-        boughtGoods = [];
+
+    generateDrinks();
+    generateNuts();
+    generateSnacks();
+
+    generateTotal();
+    $('.up_button').on('click',upNum);
+    $('.dowm_button').on('click',downNum);
+    $('.delete_button').on('click',removeItem);
+
+
+
+}
+function removeItem(){
+
+    $(this).closest('.row').remove();
+    var removeItemName = $(this).closest('.row').find('.show_num')[0].id;
+
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
+
+    for(var i=0; i<boughtGoods.length; i++){
+        if(removeItemName === boughtGoods[i].item.name){
+
+            modifyCartNum('down', boughtGoods[i].num);
+            boughtGoods.splice(i,1);
+            Localstorage.setLocalstorage("boughtGoods", boughtGoods);
+            reloadInfo();
+
+            break;
+        }
     }
+
+}
+function getGroup(group){
     var drinks = [];
     var nuts = [];
     var snacks = [];
 
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     for(var i=0; i<boughtGoods.length; i++){
 
         if(boughtGoods[i].item.category === "饮料类"){
@@ -23,70 +54,127 @@ function showCartList(){
         }
     }
 
-
-    generateDrinks(drinks);
-    generateNuts(nuts);
-    generateSnacks(snacks);
-
-    generateTotal();
-    $('.up_button').on('click',upNum);
-    $('.dowm_button').on('click',downNum);
-
-
+    if(group === 'drinks'){
+        return drinks;
+    }
+    if(group === 'nuts'){
+        return nuts;
+    }
+    if(group === 'snacks'){
+        return snacks;
+    }
 }
 function loadEveryTotal(){
 
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     for(var i=0; i<boughtGoods.length; i++){
         boughtGoods[i].everyTotal = boughtGoods[i].num*boughtGoods[i].item.price;
     }
-    localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
+
+    Localstorage.setLocalstorage("boughtGoods", boughtGoods);
 
 }
 
 function upNum(){
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     for(var i=0; i<boughtGoods.length; i++){
         if(boughtGoods[i].item.name === $(this).attr("name")){
             boughtGoods[i].num++;
-            reloadInfo(boughtGoods);
+            Localstorage.setLocalstorage("boughtGoods", boughtGoods);
+            modifyCartNum('up', 1);
+            reloadInfo();
             break;
         }
     }
-    // getNewPage(i);
-    boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+
+    boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     $('#'+$(this).attr("name")).text(boughtGoods[i].num);
 
     $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
-    $('#cart_num').text(boughtGoods.totalNum);
+    $('#cart_nums').text(boughtGoods.totalNum);
     $('#cart_total').text(boughtGoods.totalMoney);
+
 
 }
 function downNum(){
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     for(var i=0; i<boughtGoods.length; i++){
         if(boughtGoods[i].item.name === $(this).attr("name")){
-            boughtGoods[i].num--;
-            reloadInfo(boughtGoods);
+            if(boughtGoods[i].num !=1){
+                boughtGoods[i].num--;
+                Localstorage.setLocalstorage("boughtGoods", boughtGoods);
+                modifyCartNum('down', 1);
+                reloadInfo();
+
+                boughtGoods = Localstorage.getLocalstorage("boughtGoods");
+                $('#'+$(this).attr("name")).text(boughtGoods[i].num);
+                //
+                $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
+                // $('#cart_num').text(boughtGoods.totalNum);
+                // $('#cart_total').text(boughtGoods.totalMoney);
+            }
+            else{
+                boughtGoods[i].num--;
+                Localstorage.setLocalstorage("boughtGoods", boughtGoods);
+                modifyCartNum('down', 1);
+                reloadInfo();
+
+                    boughtGoods = Localstorage.getLocalstorage("boughtGoods");
+                    $('#'+$(this).attr("name")).text(boughtGoods[i].num);
+                    $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
+                removeGood(i, boughtGoods);
+            }
+
+            // boughtGoods[i].num--;
+            // modifyCartNum('down');
+            // reloadInfo(boughtGoods);
             break;
         }
     }
-    boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
-    $('#'+$(this).attr("name")).text(boughtGoods[i].num);
-
-    $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
+    //
+    // boughtGoods = Localstorage.getLocalstorage("boughtGoods");
+    // $('#'+$(this).attr("name")).text(boughtGoods[i].num);
+    //
+    // $(this).closest('.row').find("span[name='cart_everyTotal']").text(boughtGoods[i].everyTotal);
     $('#cart_num').text(boughtGoods.totalNum);
     $('#cart_total').text(boughtGoods.totalMoney);
+    $(".cart_num").text(boughtGoods.totalNum);
 
 }
-function reloadInfo(boughtGoods){
-    localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
+function removeGood(i, boughtGoods){
+
+    var category = boughtGoods[i].item.category;
+    // console.log(boughtGoods[i].category);
+    boughtGoods.splice(i,1);
+    Localstorage.setLocalstorage("boughtGoods", boughtGoods);
+    // console.log(boughtGoods[i].category);
+    if(category === '饮料类'){
+        $('#cart_panel_1').remove();
+        generateDrinks();
+        // console.log("delete");
+    }
+    if(category === '干果类'){
+      $('#cart_panel_2').remove();
+        generateNuts();
+    }
+    if(category === '零食类'){
+      $('#cart_panel_3').remove();
+        generateSnacks();
+    }
+}
+function reloadInfo(){
+
+    // Localstorage.setLocalstorage("boughtGoods", boughtGoods);
     loadEveryTotal();
     generateTotal();
 }
 
-function generateDrinks(drinks){
-
+function generateDrinks(){
+    var drinks = getGroup('drinks');
+    // if()
     if(drinks.length){
         $('#cart_list').after(
             '<div class="panel panel-default" id="cart_panel_1">'
@@ -105,38 +193,63 @@ function generateDrinks(drinks){
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
                 +'<div class="col-md-2"><label>小计</label></div>'
+                +'<div class="col-md-1"><label>删除</label></div>'
             +'</div>'
         );
+        var orderListNum = 1;
         for(var m=0; m<drinks.length; m++){
-            // drinks[m].everyTotal = drinks[m].num*drinks[m].item.price;
-            $('#cart_body_1').append(
-              '<div class="row text-center">'
-                  +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">'+ (m+1) +'</div>'
-                  +'<div class="col-md-2"><span id="cart_1_name">'+drinks[m].item.name+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_price">'+drinks[m].item.price+'元/'+drinks[m].item.unit+'</span></div>'
-                  //+'<div class="col-md-2"><span id="cart_1_num">'+drinks[m].num+'</span></div>'
-                  +'<div class="col-md-2">'
-                      +'<div class="input-group">'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default dowm_button" type="button" name="'+drinks[m].item.name+'">-</button>'
-                          +'</span>'
-                          +'<span class="form-control" id="'+drinks[m].item.name+'">'+drinks[m].num+'</span>'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default up_button" type="button" name="'+drinks[m].item.name+'">+</button>'
-                          +'</span>'
+            if(drinks[m].num != 0){
+                $('#cart_body_1').append(
+                  '<div class="row text-center">'
+                      +'<div class="col-md-1"></div>'
+                      +'<div class="col-md-1">'+ (orderListNum++) +'</div>'
+                      +'<div class="col-md-2"><span name="cart_1_name">'+drinks[m].item.name+'</span></div>'
+                      +'<div class="col-md-2"><span name="cart_1_price">'+drinks[m].item.price+'元/'+drinks[m].item.unit+'</span></div>'
+                      +'<div class="col-md-2">'
+                          +'<div class="input-group">'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default dowm_button" type="button" name="'+drinks[m].item.name+'">-</button>'
+                              +'</span>'
+                              +'<span class="form-control show_num" id="'+drinks[m].item.name+'">'+drinks[m].num+'</span>'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default up_button" type="button" name="'+drinks[m].item.name+'">+</button>'
+                              +'</span>'
+                          +'</div>'
                       +'</div>'
+                      +'<div class="col-md-2"><span name="cart_everyTotal">'+ drinks[m].everyTotal +'元</span></div>'
+                      // +'<div class="col-md-1"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
+                      +'<div class="col-md-1"><button class="delete_button"><span name="cart_everyRemove" class="glyphicon glyphicon-trash" ></span></button></div>'
                   +'</div>'
-                  +'<div class="col-md-2"><span name="cart_everyTotal">'+ drinks[m].everyTotal +'元</span></div>'
-                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
-              +'</div>'
-            );
+                );
+            }
+            // $('#cart_body_1').append(
+            //   '<div class="row text-center">'
+            //       +'<div class="col-md-1"></div>'
+            //       +'<div class="col-md-1">'+ (m+1) +'</div>'
+            //       +'<div class="col-md-2"><span id="cart_1_name">'+drinks[m].item.name+'</span></div>'
+            //       +'<div class="col-md-2"><span id="cart_1_price">'+drinks[m].item.price+'元/'+drinks[m].item.unit+'</span></div>'
+            //       +'<div class="col-md-2">'
+            //           +'<div class="input-group">'
+            //               +'<span class="input-group-btn">'
+            //                   +'<button class="btn btn-default dowm_button" type="button" name="'+drinks[m].item.name+'">-</button>'
+            //               +'</span>'
+            //               +'<span class="form-control" id="'+drinks[m].item.name+'">'+drinks[m].num+'</span>'
+            //               +'<span class="input-group-btn">'
+            //                   +'<button class="btn btn-default up_button" type="button" name="'+drinks[m].item.name+'">+</button>'
+            //               +'</span>'
+            //           +'</div>'
+            //       +'</div>'
+            //       +'<div class="col-md-2"><span name="cart_everyTotal">'+ drinks[m].everyTotal +'元</span></div>'
+            //       +'<div class="col-md-1"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
+            //   +'</div>'
+            // );
         }
     }
 
 }
 
 function generateNuts(nuts){
+    var nuts = getGroup('nuts');
     if(nuts.length){
         $('#cart_list').after(
             '<div class="panel panel-default" id="cart_panel_2">'
@@ -155,37 +268,43 @@ function generateNuts(nuts){
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
                 +'<div class="col-md-2"><label>小计</label></div>'
+                +'<div class="col-md-1"><label>删除</label></div>'
             +'</div>'
         );
+        var orderListNum = 1;
         for(var m=0; m<nuts.length; m++){
-            // nuts[m].everyTotal = nuts[m].num*nuts[m].item.price;
-            $('#cart_body_2').append(
-              '<div class="row text-center">'
-                  +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">'+ (m+1) +'</div>'
-                  +'<div class="col-md-2"><span id="cart_1_name">'+nuts[m].item.name+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_price">'+nuts[m].item.price+'元/'+nuts[m].item.unit+'</span></div>'
-                  +'<div class="col-md-2">'
-                      +'<div class="input-group">'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default dowm_button" type="button" name="'+nuts[m].item.name+'">-</button>'
-                          +'</span>'
-                          +'<span class="form-control" id="'+nuts[m].item.name+'">'+nuts[m].num+'</span>'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default up_button" type="button" name="'+nuts[m].item.name+'">+</button>'
-                          +'</span>'
+            if(nuts[m].num != 0){
+                $('#cart_body_2').append(
+                  '<div class="row text-center">'
+                      +'<div class="col-md-1"></div>'
+                      +'<div class="col-md-1">'+ (orderListNum++) +'</div>'
+                      +'<div class="col-md-2"><span id="cart_1_name">'+nuts[m].item.name+'</span></div>'
+                      +'<div class="col-md-2"><span id="cart_1_price">'+nuts[m].item.price+'元/'+nuts[m].item.unit+'</span></div>'
+                      +'<div class="col-md-2">'
+                          +'<div class="input-group">'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default dowm_button" type="button" name="'+nuts[m].item.name+'">-</button>'
+                              +'</span>'
+                              +'<span class="form-control show_num" id="'+nuts[m].item.name+'">'+nuts[m].num+'</span>'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default up_button" type="button" name="'+nuts[m].item.name+'">+</button>'
+                              +'</span>'
+                          +'</div>'
                       +'</div>'
+                      +'<div class="col-md-2"><span name="cart_everyTotal">'+ nuts[m].everyTotal +'元</span></div>'
+                      // +'<div class="col-md-1"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
+                      +'<div class="col-md-1"><button class="delete_button"><span name="cart_everyRemove" class="glyphicon glyphicon-trash" ></span></button></div>'
                   +'</div>'
-                  +'<div class="col-md-2"><span name="cart_everyTotal">'+ nuts[m].everyTotal +'元</span></div>'
-                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
-              +'</div>'
-            );
+                );
+            }
+
         }
     }
 
 }
 
 function generateSnacks(snacks){
+    var snacks = getGroup('snacks');
     if(snacks.length){
         $('#cart_list').after(
             '<div class="panel panel-default" id="cart_panel_3">'
@@ -204,31 +323,36 @@ function generateSnacks(snacks){
                 +'<div class="col-md-2"><label>单价</label></div>'
                 +'<div class="col-md-2"><label>数量</label></div>'
                 +'<div class="col-md-2"><label>小计</label></div>'
+                +'<div class="col-md-1"><label>删除</label></div>'
+
             +'</div>'
         );
+        var orderListNum = 1;
         for(var m=0; m<snacks.length; m++){
-            // snacks[m].everyTotal = snacks[m].num*snacks[m].item.price;
-            $('#cart_body_3').append(
-              '<div class="row text-center">'
-                  +'<div class="col-md-1"></div>'
-                  +'<div class="col-md-1">'+ (m+1) +'</div>'
-                  +'<div class="col-md-2"><span id="cart_1_name">'+snacks[m].item.name+'</span></div>'
-                  +'<div class="col-md-2"><span id="cart_1_price">'+snacks[m].item.price+'元/'+snacks[m].item.unit+'</span></div>'
-                  +'<div class="col-md-2">'
-                      +'<div class="input-group">'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default dowm_button" type="button" name="'+snacks[m].item.name+'">-</button>'
-                          +'</span>'
-                          +'<span class="form-control" id="'+snacks[m].item.name+'">'+snacks[m].num+'</span>'
-                          +'<span class="input-group-btn">'
-                              +'<button class="btn btn-default up_button" type="button" name="'+snacks[m].item.name+'">+</button>'
-                          +'</span>'
+            if(snacks[m].num != 0){
+                $('#cart_body_3').append(
+                  '<div class="row text-center">'
+                      +'<div class="col-md-1"></div>'
+                      +'<div class="col-md-1">'+ (orderListNum++) +'</div>'
+                      +'<div class="col-md-2"><span id="cart_1_name">'+snacks[m].item.name+'</span></div>'
+                      +'<div class="col-md-2"><span id="cart_1_price">'+snacks[m].item.price+'元/'+snacks[m].item.unit+'</span></div>'
+                      +'<div class="col-md-2">'
+                          +'<div class="input-group">'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default dowm_button" type="button" name="'+snacks[m].item.name+'">-</button>'
+                              +'</span>'
+                              +'<span class="form-control show_num" id="'+snacks[m].item.name+'">'+snacks[m].num+'</span>'
+                              +'<span class="input-group-btn">'
+                                  +'<button class="btn btn-default up_button" type="button" name="'+snacks[m].item.name+'">+</button>'
+                              +'</span>'
+                          +'</div>'
                       +'</div>'
+                      +'<div class="col-md-2"><span name="cart_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
+                      +'<div class="col-md-1"><button class="delete_button"><span name="cart_everyRemove" class="glyphicon glyphicon-trash" ></span></button></div>'
                   +'</div>'
-                  +'<div class="col-md-2"><span name="cart_everyTotal">'+snacks[m].everyTotal+'元</span></div>'
-                  +'<div class="col-md-2"><span name="cart_everyRemove" class="glyphicon glyphicon-trash"></span></div>'
-              +'</div>'
-            );
+                );
+            }
+
         }
     }
 
@@ -236,7 +360,8 @@ function generateSnacks(snacks){
 
 
 function generateTotal(){
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     var totalNum = 0;
     var totalMoney = 0;
 
@@ -244,8 +369,10 @@ function generateTotal(){
         totalNum += boughtGoods[i].num;
         totalMoney += boughtGoods[i].everyTotal;
     }
-    $('#cart_num').text(totalNum);
+    $('#cart_nums').text(totalNum);
     $('#cart_total').text(totalMoney);
-    localStorage.setItem("totalMoney",JSON.stringify(totalMoney));
-    localStorage.setItem("totalNum",JSON.stringify(totalNum));
+
+    Localstorage.setLocalstorage("totalMoney", totalMoney);
+    Localstorage.setLocalstorage("totalNum", totalNum);
+
 }

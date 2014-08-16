@@ -23,7 +23,6 @@ function showShopList(){
           +'<div class="col-md-2"><label>分类</label></div>'
           +'<div class="col-md-2"><label>名称</label></div>'
           +'<div class="col-md-2"><label>单价</label></div>'
-          //+'<div class="col-md-2"><label>数量</label></div>'
           +'<div class="col-md-2"><label>购买</label></div>'
         +'</div>'
     );

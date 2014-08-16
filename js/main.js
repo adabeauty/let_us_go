@@ -1,24 +1,20 @@
 $(document).ready(function(){
+// localStorage.clickcount =0;
+// localStorage.boughtGoods =0;
+// localStorage.totalMoney =0;
 
-    $(".cart_num").text('('+localStorage.clickcount+')' );   //结束购物后清零
+    $(".cart_num").text('('+localStorage.clickcount+')' );
 
     showShopList();
     $(".btn-Info").on("click", clickCounter);
 
     showCartList();
-    // $('.up_button').on('click',upNum);
-    // $('.dowm_button').on('click',downNum);
-
     showPayList();
-    $(".clear_button").on("click", clearCart);
-
-
-
 });
 
 function clickCounter() {
 
-    var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
+    var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
     if(boughtGoods === 0){
         boughtGoods = [];
     }
@@ -29,19 +25,31 @@ function clickCounter() {
         boughtGoods.push(new BoughtItem(getItem($(this)[0].id),1));
     }
 
-    localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
+    Localstorage.setLocalstorage("boughtGoods", boughtGoods);
 
-    if(typeof(Storage) !== "undefined") {
-        if (localStorage.clickcount) {
-            localStorage.clickcount = Number(localStorage.clickcount)+1;
+    modifyCartNum('up',1);
+}
+
+function modifyCartNum(direction, num){
+
+    var clickcount = Localstorage.getLocalstorage("clickcount");
+    if(direction === 'up'){
+        if (clickcount) {
+            clickcount++;
         } else {
-            localStorage.clickcount = 1;
+            clickcount = 1;
         }
-        $(".cart_num").text('('+localStorage.clickcount+')' );
-
-    } else {
-        $(".cart_num").text("Sorry, your browser does not support web storage...");
     }
+    if(direction === 'down'){
+        if(clickcount != 0){
+            clickcount = clickcount - num;
+        }
+    }
+
+    Localstorage.setLocalstorage("clickcount", clickcount);
+
+    $(".cart_num").text('('+clickcount+')' );
+
 }
 
 function getItem(name){
@@ -70,11 +78,4 @@ function goodsHasExist(name,boughtGoods){
     }
 
     return boughtGood;
-}
-
-function clearCart(){
-    localStorage.clickcount =0;
-    localStorage.boughtGoods =0;
-    localStorage.totalMoney =0;
-
 }

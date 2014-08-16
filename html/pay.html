@@ -9,9 +9,12 @@
         <script src="../lib/jquery-2.1.1/jquery-2.1.1.min.js"></script>
         <script src="../lib/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
 
-        <script src="../js/main.js"></script>
+
         <script src="../js/item.js"></script>
         <script src="../js/bought_item.js"></script>
+        <script src="../js/local_storage.js"></script>
+
+        <script src="../js/main.js"></script>
         <script src="../js/storage.js"></script>
         <script src="../js/cartList.js"></script>
         <script src="../js/payList.js"></script>
@@ -32,12 +35,12 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                    <ul class="nav navbar-nav">
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="list.html">商城</a></li>
+                        <li><a href="../index.html" class="clear">首页</a></li>
+                        <li><a href="list.html" class="clear">商城</a></li>
                    </ul>
                    <ul class="nav navbar-nav navbar-right">
                      <li><a href="#"><span class="glyphicon glyphicon-user">登陆</span></a></li>
-                     <li class=""><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
+                     <li class=""><a href="cart.html" class="clear"><span class="glyphicon glyphicon-shopping-cart">购物车</span></a></li>
                    </ul>
                 </div>
             </div>
@@ -45,7 +48,6 @@
 
         <div class="container">
             <label><h3><span class="glyphicon glyphicon-list-alt">支付宝</span></h3></label>
-            <!-- <div class="panel panel-default" id="shop_list"> -->
             <div class="panel panel-default" id="pay_list">
                 <div class="panel-heading text-center"><h3>Let's Go结算清单</h3></div>
                 <div class="panel-body" id="pay_list_body">

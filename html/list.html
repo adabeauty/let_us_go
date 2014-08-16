@@ -11,6 +11,8 @@
 
         <script src="../js/main.js"></script>
         <script src="../js/item.js"></script>
+        <script src="../js/local_storage.js"></script>
+
         <script src="../js/bought_item.js"></script>
         <script src="../js/storage.js"></script>
         <script src="../js/cartList.js"></script>
@@ -48,144 +50,12 @@
             <div class="page-header text-center">
                 <h1 class="text-capitalize">let's go <small class="text-center">购物商城</small></h1>
             </div>
-            <div class="panel panel-default" id="shop_list">
-                <!-- <div class="panel-heading text-left"><label><h4>饮料类</h4></label></div>
-                <div class="panel-body"> -->
-                    <!-- <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1"><label>编号</label></div>
-                        <div class="col-md-2"><label>名称</label></div>
-                        <div class="col-md-2"><label>单价</label></div>
-                        <div class="col-md-2"><label>数量</label></div>
-                        <div class="col-md-3"><label>购买</label></div>
-                    </div> -->
-                    <!-- <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1">TF1101</div>
-                        <div class="col-md-2">雪碧</div>
-                        <div class="col-md-2">3.00元/瓶</div>
-                        <div class="col-md-2">
-                            <input type="text" id="drink_1_num" class="form-control input-sm" name="drink_1" value="">
-
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <button type="button" class="btn btn-Info buy_button" id="drink_1_buy" name="drink_1_buy">
-                                    <span class="glyphicon glyphicon-hand-up"><span>&nbsp;添加至购物车
-                                </button>
-                            </label>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1">TF1102</div>
-                        <div class="col-md-2">可口可乐</div>
-                        <div class="col-md-2">3.00元/瓶</div>
-                        <div class="col-md-2">
-
-                            <input type="text" id="drink_2_num" class="form-control input-sm" name="drink_2" value="">
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                              <button type="button" class="btn btn-Info buy_button" id="drink_2_buy" name="drink_2_buy">
-                                  <span class="glyphicon glyphicon-hand-up"><span>&nbsp;添加至购物车
-                              </button>
-                            </label>
-                        </div>
-                    </div>
-
-                </div> -->
-
-
-
-                <!-- <div class="panel-heading text-left"><label><h4>水果类</h4></label></div>
-                <div class="panel-body">
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1"><label>编号</label></div>
-                        <div class="col-md-2"><label>名称</label></div>
-                        <div class="col-md-2"><label>单价</label></div>
-                        <div class="col-md-2"><label>数量</label></div>
-                        <div class="col-md-3"><label>购买</label></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1">TF0201</div>
-                        <div class="col-md-2">荔枝</div>
-                        <div class="col-md-2">10.00元/斤</div>
-                        <div class="col-md-2">
-                             -->
-                            <!-- <input type="text" class="form-control input-sm" id="fruit_1_num"  name="fruit_1_num" value="">
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <button type="button" class="btn btn-Info" id="fruit_1_buy" name="fruit_1_buy">
-                                    <span class="glyphicon glyphicon-hand-up"><span>&nbsp;添加至购物车
-                                </button>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-1">TF0201</div>
-                        <div class="col-md-2">苹果</div>
-                        <div class="col-md-2">4.50元/斤</div>
-                        <div class="col-md-2">
-                           -->
-                            <!-- <input type="text" class="form-control input-sm" id="fruit_2_num" name="fruit_2_num" value="">
-                        </div>
-                        <div class="col-md-3">
-                            <label>
-                                <button type="button" class="btn btn-Info" id="fruit_2_buy" name="fruit_2_buy">
-                                    <span class="glyphicon glyphicon-hand-up"><span>&nbsp;添加至购物车
-                                </button>
-                            </label>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+            <div class="panel panel-default" id="shop_list"></div>
             <div class="text-center">
                 <span>
                     <a href="cart.html" id="enter_button" class="btn btn-primary btn-lg text-center" role="button">查看购物车&nbsp;>></a>
                 </span>
             </div>
-
-            <!-- <div class="panel panel-warning">
-                <div class="panel-heading text-center">饮料类</div>
-                <div class="panel-body">
-                    <table class="table">
-                       <thead>
-                         <tr>
-                           <th>名称</th>
-                           <th>单价</th>
-                           <th>数量</th>
-                           <th>购买</th>
-                         </tr>
-                       </thead>
-                       <tbody>
-                         <tr>
-                           <td>雪碧</td>
-                           <td>3.00元/瓶</td>
-                           <td>输入框</td>
-                           <td><button type="button" class="btn btn-Warning">购买</button></td>
-                         </tr>
-                         <tr>
-                           <td>可口可乐</td>
-                           <td>3.00元/瓶</td>
-                           <td>输入框</td>
-                           <td><button type="button" class="btn btn-Warning">购买</button></td>
-                         </tr>
-                       </tbody>
-                    </tabel>
-                </div>
-            </div> -->
 
         </div>
 
