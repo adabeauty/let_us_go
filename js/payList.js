@@ -1,7 +1,7 @@
 function showPayList(){
 
     var boughtGoods = JSON.parse(localStorage.getItem("boughtGoods"));
-    generatePayList(boughtGoods);
+    generatePayList(boughtGoods, 'pay_list_body');
     localStorage.setItem("boughtGoods",JSON.stringify(boughtGoods));
     $(".clear").on("click", clearCart);
 }
@@ -13,8 +13,8 @@ function clearCart(){
 
 }
 
-function generatePayList(boughtGoods){
-    $('#pay_list_body').append(
+function generatePayList(boughtGoods, payListId){
+    $('#'+payListId).append(
         '<div class="row text-center">'
             +'<div class="col-md-1"></div>'
             +'<div class="col-md-2"><label>编号</label></div>'
@@ -29,10 +29,9 @@ function generatePayList(boughtGoods){
     );
     var orderListNum = 1;
     for(var i=0; i<boughtGoods.length; i++){
-        // var orderListNum = 0;
+
         if(boughtGoods[i].num != 0){
-            // orderListNum++;
-            $('#pay_list_body').append(
+            $('#'+payListId).append(
                 '<div class="row text-center">'
                     +'<div class="col-md-1"></div>'
                     +'<div class="col-md-2">'+ (orderListNum++) +'</div>'
@@ -43,16 +42,7 @@ function generatePayList(boughtGoods){
                 +'</div>'
             );
         }
-        // $('#pay_list_body').append(
-        //     '<div class="row text-center">'
-        //         +'<div class="col-md-1"></div>'
-        //         +'<div class="col-md-2">'+ (i+1) +'</div>'
-        //         +'<div class="col-md-2"><span id="cart_1_name">'+boughtGoods[i].item.name+'</span></div>'
-        //         +'<div class="col-md-2"><span id="cart_1_price">'+boughtGoods[i].item.price+'元/'+boughtGoods[i].item.unit+'</span></div>'
-        //         +'<div class="col-md-2"><span id="cart_1_num">'+boughtGoods[i].num+'</span></div>'
-        //         +'<div class="col-md-2"><span id="cart_1_everyTotal">'+ boughtGoods[i].everyTotal +'元</span></div>'
-        //     +'</div>'
-        // );
+
     }
     var totalMoney = JSON.parse(localStorage.getItem("totalMoney"));
     $('#pay_list_body').append(
@@ -69,8 +59,7 @@ function generatePayList(boughtGoods){
 
     $('#pay_list').after(
           '<div class="text-center">'
-              +'<a href="../index.html" class="tn btn-primary btn-lg text-center clear" role="button"><span>返回主页</span></a>'
+              +'<a href="shop.html" class="tn btn-primary btn-lg text-center clear" role="button"><span>继续购物</span></a>'
           +'</div>'
     );
-
 }

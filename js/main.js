@@ -1,7 +1,4 @@
 $(document).ready(function(){
-// localStorage.clickcount =0;
-// localStorage.boughtGoods =0;
-// localStorage.totalMoney =0;
 
     $(".cart_num").text('('+localStorage.clickcount+')' );
 
