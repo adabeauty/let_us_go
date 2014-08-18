@@ -1,13 +1,13 @@
-function generateCartPanel(group){
+function generateCartPanel(group, category){
 
     var listGroup = getGroup(group);
 
     if(listGroup.length){
         $('#cart_list').after(
             '<div class="panel panel-default" id="cart_panel_'+group+'">'
-        );console.log(listGroup);
+        );
         $('#cart_panel_'+group).append(
-            '<div class="panel-heading text-center">零食类</div>'
+            '<div class="panel-heading text-center">'+category+'</div>'
         );
         $('#cart_panel_'+group).append(
             '<div class="panel-body" id="cart_body_'+group+'"></div>'
@@ -36,21 +36,23 @@ function generateCartPanel(group){
                       +'<div class="col-md-2">'
                           +'<div class="input-group">'
                               +'<span class="input-group-btn">'
-                                  +'<button class="btn btn-default dowm_button" type="button" name="'+listGroup[m].item.name+'">-</button>'
+                                  +'<button class="btn btn-default dowm_button_'+group+'" type="button" name="'+listGroup[m].item.name+'">-</button>'
                               +'</span>'
                               +'<span class="form-control show_num" id="'+listGroup[m].item.name+'">'+listGroup[m].num+'</span>'
                               +'<span class="input-group-btn">'
-                                  +'<button class="btn btn-default up_button" type="button" name="'+listGroup[m].item.name+'">+</button>'
+                                  +'<button class="btn btn-default up_button_'+group+'" type="button" name="'+listGroup[m].item.name+'">+</button>'
                               +'</span>'
                           +'</div>'
                       +'</div>'
-                      +'<div class="col-md-2"><span name="cart_everyTotal">'+listGroup[m].everyTotal+'元</span></div>'
-                      +'<div class="col-md-1"><button class="delete_button"><span name="cart_everyRemove" class="glyphicon glyphicon-trash" ></span></button></div>'
+                      +'<div class="col-md-2"><span name="cart_everyTotal">'+listGroup[m].everyTotal+'</span>元</div>'
+                      +'<div class="col-md-1"><button class="delete_button_'+group+'"><span name="cart_everyRemove" class="glyphicon glyphicon-trash" ></span></button></div>'
                   +'</div>'
                 );
             }
 
         }
+        // emptyBoughtGoods();
+
     }
 
 }
@@ -75,6 +77,10 @@ function getGroup(group){
         }
     }
 
+    return returngroup(group, drinks, nuts, snacks);
+
+}
+function returngroup(group, drinks, nuts, snacks){
     if(group === 'drinks'){
         return drinks;
     }
@@ -85,3 +91,13 @@ function getGroup(group){
         return snacks;
     }
 }
+
+//
+// function emptyBoughtGoods(){
+//     var boughtGoods = Localstorage.getLocalstorage("boughtGoods");
+//     if(boughtGoods.length === 0){
+//         $('.cart_list_num')[0].diaplay = 'none';
+//         $('.cart_list_account')[0].diaplay = 'none';
+//         $('.account_button')[0].diaplay = 'none';
+//     }
+// }

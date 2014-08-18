@@ -3,10 +3,15 @@ $(document).ready(function(){
     $(".cart_num").text('('+localStorage.clickcount+')' );
 
     showShopList();
-    $(".btn-Info").on("click", clickCounter);
-
     showCartList();
     showPayList();
+
+    $(".btn-Info").on("click", clickCounter);
+    // showShopList();
+    // showCartList();
+    // showPayList();
+    // showCartList();
+    // showPayList();
 });
 
 function clickCounter() {
@@ -25,28 +30,6 @@ function clickCounter() {
     Localstorage.setLocalstorage("boughtGoods", boughtGoods);
 
     modifyCartNum('up',1);
-}
-
-function modifyCartNum(direction, num){
-
-    var clickcount = Localstorage.getLocalstorage("clickcount");
-    if(direction === 'up'){
-        if (clickcount) {
-            clickcount++;
-        } else {
-            clickcount = 1;
-        }
-    }
-    if(direction === 'down'){
-        if(clickcount != 0){
-            clickcount = clickcount - num;
-        }
-    }
-
-    Localstorage.setLocalstorage("clickcount", clickcount);
-
-    $(".cart_num").text('('+clickcount+')' );
-
 }
 
 function getItem(name){
@@ -73,6 +56,28 @@ function goodsHasExist(name,boughtGoods){
     }else{
         boughtGood=false;
     }
-
     return boughtGood;
+}
+
+function modifyCartNum(direction, num){
+
+    var clickcount = Localstorage.getLocalstorage("clickcount");
+    if(direction === 'up'){
+        if (clickcount) {
+            clickcount++;
+        } else {
+            clickcount = 1;
+        }
+    }
+
+    if(direction === 'down'){
+        if(clickcount != 0){
+            clickcount = clickcount - num;
+        }
+    }
+
+    Localstorage.setLocalstorage("clickcount", clickcount);
+
+    $(".cart_num").text('('+clickcount+')' );
+
 }
